@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase 0 sanitized run result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "candidate",
+    "binary_version",
+    "source_revision",
+    "build_args_sha256",
+    "windows_build",
+    "started_utc",
+    "tester_alias",
+    "results"
+  ],
+  "properties": {
+    "candidate": { "type": "string" },
+    "binary_version": { "type": "string" },
+    "source_revision": { "type": "string" },
+    "build_args_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "windows_build": { "type": "string" },
+    "started_utc": { "type": "string", "format": "date-time" },
+    "tester_alias": { "type": "string" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "notes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^P0-[A-F]-[0-9]+$" },
+          "status": { "enum": ["PASS", "FAIL", "BLOCKED", "NOT RUN"] },
+          "notes": { "type": "string", "maxLength": 1000 },
+          "evidence": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" }
+          }
+        }
+      }
+    }
+  }
+}

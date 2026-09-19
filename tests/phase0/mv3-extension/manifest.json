@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Browser Engine Phase 0 Probe",
+  "version": "0.1.0",
+  "description": "Local-only extension capability probe for the engine gate.",
+  "permissions": [
+    "contextMenus",
+    "declarativeNetRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Phase 0 probe",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "phase0_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  }
+}

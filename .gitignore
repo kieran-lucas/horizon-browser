@@ -1,0 +1,14 @@
+# Local Phase 0 evidence can contain machine-specific paths and profile names.
+out/
+phase0-artifacts/
+
+# Chromium/depot_tools outputs if this repository is overlaid into a checkout.
+src/out/
+.sccache/
+
+# Editors and operating-system metadata.
+.vs/
+.vscode/
+*.user
+*.suo
+Thumbs.db
