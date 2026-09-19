@@ -5,7 +5,32 @@ present in the workspace on 2026-09-19, so no claim is made that prototype
 measurements were extracted. When it is added, render it at 2560×1600 and amend
 this document with measured spacing, proportions, and screenshots rather than
 reconstructing it from memory.
+## Visual authority
 
+The current visual source of truth for Horizon is:
+
+1. `docs/design/reference/horizon_browser_concept_gojo_refined_v9.html`
+2. `docs/design/art-direction-v2.md`
+3. this document
+4. older visual guidance in the original project specification
+
+If any older visual instruction conflicts with the latest approved reference,
+follow the latest approved reference.
+
+This precedence applies only to visual/UI decisions.
+
+Architecture, engine, security, performance, browser compatibility and feature
+requirements from the original project specification remain authoritative.
+
+### Current visual north star
+
+**Ethereal blue anime-tech minimalism**
+
+Horizon should feel calm, cold, intelligent, slightly supernatural, bright,
+airy and premium, with strong negative space, luminous soft-blue ambient
+energy, restrained Japanese/anime symbolism and quiet browser chrome.
+
+The governing principle is **restraint**.
 ## Direction
 
 Soft-premium, light, warm ivory/gray, restrained blue accents, crisp and dense
