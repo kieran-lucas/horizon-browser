@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "checkout_root": ".engine/chromium",
+  "source_tree": ".engine/chromium/src",
+  "build_output": ".engine/chromium/src/out/phase0",
+  "depot_tools": ".engine/depot_tools",
+  "artifact_root": "phase0-artifacts/disk",
+  "task_temp": "phase0-artifacts/temp",
+  "cache_paths": [
+    ".engine/chromium/.cipd"
+  ],
+  "maximum_source_trees": 1,
+  "maximum_primary_outputs": 1,
+  "build_jobs": 2,
+  "thresholds_gib": {
+    "safe": 120,
+    "monitor": 80,
+    "estimate_required": 60,
+    "hard_stop": 40
+  }
+}

@@ -131,7 +131,7 @@ Sources:
 | Google rejects the product build or a required site breaks | Run the no-spoof manual matrix in two clean profiles; failure reopens this ADR |
 | Security releases outpace a personal fork | Automate upstream merge/build/smoke cadence; keep patch surface small; never defer a critical merge for visual polish |
 | 16 GiB local build pressure | Conservative `autoninja -j`, component dev builds, minimal symbols, sccache after measurement, and later CI/remote release builds |
-| Disk pressure | Reserve at least 180 GiB before checkout; keep source and outputs on one verified NTFS volume; prune only explicit build outputs |
+| Disk pressure | Use `fetch --no-history chromium`, one source tree, one `out/phase0`, and mandatory guarded measurements before/after every multi-GiB operation |
 | UI rewrite becomes unmergeable | Prefer tokens/factories/controllers and separately owned files; inventory every upstream edit |
 | Chromium trademark/API/service assumptions | Use replaceable product identity; audit terms, keys, endpoints, codecs, and distribution licenses before release |
 | Password/security regressions | Reuse upstream password manager and OS-auth surfaces; run the threat model and browser tests before UI customization lands |

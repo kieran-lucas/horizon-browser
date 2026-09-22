@@ -24,11 +24,13 @@ weakening Chromium security or violating provider policy.
 
 ### 0.1 — Reproducible build host
 
-- reserve at least 180 GiB on a verified NTFS build volume;
+- verify the checkout volume is NTFS and in the greater-than-120-GiB start band;
+- create only the no-history `.engine/chromium/src` checkout and `out/phase0`;
 - install current Visual Studio 2026 Build Tools, Desktop C++, ATL/MFC, the
   Chromium-required Windows SDK and Debugging Tools;
 - install/bootstrap depot_tools according to upstream instructions;
 - cap local concurrency for 16 GiB RAM and record the exact configuration.
+- run disk preflight/postflight around fetch, sync, GN, build, and update.
 
 Exit: upstream Chromium stable-family `chrome` target builds and starts with the
 sandbox enabled.

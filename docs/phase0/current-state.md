@@ -1,6 +1,6 @@
 # Current-state verification
 
-Verified: 2026-09-19 (Asia/Saigon). The generated, sanitized machine report is
+Verified: 2026-09-20 (Asia/Saigon). The generated, sanitized machine report is
 `phase0-artifacts/environment.json` and is intentionally ignored by Git.
 
 ## Repository/source baseline
@@ -20,12 +20,12 @@ Verified: 2026-09-19 (Asia/Saigon). The generated, sanitized machine report is
 |---|---|
 | OS | Windows 11 Home x64, 10.0.26200 |
 | RAM | 15.4 GiB total; 4.0 GiB free at recorded scan |
-| Workspace volume | D: NTFS, 146.2 GiB free |
-| Visual Studio | Build Tools 2022 17.14.37710.0 |
-| VC toolset | 14.44 present; ATL/MFC component not detected |
-| Windows SDK | newest installed: 10.0.26100 |
-| Git / depot_tools / GN / Ninja | not available on `PATH` |
-| Rust | not installed |
+| Workspace volume | D: NTFS; 146.2 GiB initially, 116.70 GiB immediately before the Phase 0 build |
+| Visual Studio | Build Tools 2026 18.10.12210.168 (stable 18.10.1) |
+| VC toolset | 14.51.36231 x64/x86 with ATL/MFC |
+| Windows SDK | 10.0.28000 headers/libs; Debugging Tools 10.0.28000.2705 |
+| Git / depot_tools / GN / Ninja | Git 2.55 plus repository-local depot_tools/GN/Ninja |
+| Rust | Chromium-pinned Rust toolchain installed by upstream hooks; no parallel system toolchain required |
 | Python / Node | 3.14.7 / 24.19.0 |
 | Chrome / Edge | 153.0.8010.53 / 153.0.4234.48 |
 | WebView2 Runtime | 153.0.4234.32 newest installed |
@@ -56,8 +56,9 @@ Official sources:
    policy; it is not a fallback browser engine.
 2. CEF Alloy-style custom UI loses the Chrome extension path and remains an
    embedded-user-agent policy risk.
-3. A full Chromium checkout/build needs a newer system toolchain and more safe
-   disk headroom than this workspace currently provides.
+3. The workspace volume started at 146.2 GiB free and had 116.70 GiB free before
+   compilation. It permits only one shallow checkout and one compact output
+   with continuous measurement; it is not capacity for parallel configurations.
 4. Google acceptance requires a human login and redacted evidence; credentials
    and 2FA must never be automated or stored in test assets.
 5. The product working title cannot become a persisted/public identity yet.

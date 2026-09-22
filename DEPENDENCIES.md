@@ -7,8 +7,11 @@ are recorded here.
 | Component | Verified 2026-09-19 | Selection status |
 |---|---:|---|
 | Chrome stable on test host | 153.0.8010.53 | Evidence host only; not a source pin |
-| Chromium | Milestone 153 stable family | Candidate; exact source revision pending checkout |
+| Chromium | Tag `153.0.8010.53`, commit `792bf6722e73a45aa9e47c163b9901bdc17f3230` | Phase 0 upstream pin; shallow checkout |
+| Phase 0 Chromium patch | `a1d39df07efc8101c31ec6efce60265de7689dcb` | Local child commit; disables only Chrome updater integration-test artifacts blocked by Defender |
 | Visual Studio 2026 | 18.10.1 stable | Build-host target; Chromium minimum is 18.0.0 |
+| MSVC / Windows SDK | MSVC 14.51.36231; SDK 10.0.28000; Debugging Tools 10.0.28000.2705 | Installed Phase 0 host toolchain |
+| Git for Windows | 2.55 | Checkout host tool; long-path support enabled for Chromium |
 | Brave release | 1.95.x / Chromium 153 | Reference only; not selected as a distribution |
 | CEF API line | 15400 exists upstream | Rejected production candidate |
 | WebView2 SDK | 1.0.4191.47 / Runtime 152 release | Rejected production engine |

@@ -16,16 +16,23 @@ New-Item -ItemType Directory -Path $artifactRoot -Force | Out-Null
 function Get-CommandVersion {
     param(
         [Parameter(Mandatory = $true)][string] $Name,
-        [string[]] $Arguments = @('--version')
+        [string[]] $Arguments = @('--version'),
+        [string[]] $FallbackPaths = @()
     )
 
     $command = Get-Command $Name -ErrorAction SilentlyContinue
-    if ($null -eq $command) {
+    $executable = if ($null -eq $command) { $null } else { $command.Source }
+    if ($null -eq $executable) {
+        $executable = $FallbackPaths |
+            Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } |
+            Select-Object -First 1
+    }
+    if ($null -eq $executable) {
         return [ordered]@{ available = $false; version = $null }
     }
 
     try {
-        $firstLine = (& $command.Source @Arguments 2>&1 | Select-Object -First 1).ToString().Trim()
+        $firstLine = (& $executable @Arguments 2>&1 | Select-Object -First 1).ToString().Trim()
         return [ordered]@{ available = $true; version = $firstLine }
     } catch {
         return [ordered]@{ available = $true; version = 'unable to query' }
@@ -97,7 +104,7 @@ $report = [ordered]@{
         workspace_file_system = if ($null -eq $logicalDisk) { $null } else { $logicalDisk.FileSystem }
     }
     tools = [ordered]@{
-        git = Get-CommandVersion -Name 'git'
+        git = Get-CommandVersion -Name 'git' -FallbackPaths @('C:\Program Files\Git\cmd\git.exe')
         python = Get-CommandVersion -Name 'python' -Arguments @('--version')
         node = Get-CommandVersion -Name 'node'
         npm = Get-CommandVersion -Name 'npm'

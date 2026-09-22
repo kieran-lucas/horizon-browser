@@ -1,6 +1,13 @@
 # Local Phase 0 evidence can contain machine-specific paths and profile names.
 out/
 phase0-artifacts/
+phase1-artifacts/
+performance-artifacts/*-profile*/
+performance-artifacts/traces/*.json.gz
+performance-artifacts/*.json
+performance-artifacts/*.png
+tests/phase0/mv3-extension/_metadata/
+.engine/
 
 # Chromium/depot_tools outputs if this repository is overlaid into a checkout.
 src/out/
