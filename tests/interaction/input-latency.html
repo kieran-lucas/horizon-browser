@@ -1,0 +1,129 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Horizon input latency fixture</title>
+<style>
+  :root { color-scheme: light dark; font: 18px/1.4 system-ui, sans-serif; }
+  body { margin: 32px; max-width: 900px; }
+  label { display: block; margin: 22px 0 8px; font-weight: 600; }
+  input, textarea, [contenteditable] {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 12px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    font: inherit;
+  }
+  textarea, [contenteditable] { min-height: 120px; }
+  #paint-indicator {
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: hsl(210 80% 50%);
+  }
+  #status { margin-top: 24px; white-space: pre-wrap; font-family: ui-monospace, monospace; }
+</style>
+
+<h1>Input latency fixture</h1>
+<p>Local, dependency-free controls used for Chrome/Horizon input A/B tests.</p>
+
+<label for="plain-input">Plain input</label>
+<input id="plain-input" autocomplete="off" spellcheck="true">
+
+<label for="plain-textarea">Plain textarea</label>
+<textarea id="plain-textarea" autocomplete="off" spellcheck="true"></textarea>
+
+<label for="editable">Contenteditable</label>
+<div id="editable" contenteditable="true" spellcheck="true"></div>
+
+<div id="paint-indicator" aria-hidden="true"></div>
+<div id="status" aria-live="polite">ready</div>
+
+<script>
+(() => {
+  const records = [];
+  const frameSamples = [];
+  const eventTimings = [];
+  const indicator = document.querySelector('#paint-indicator');
+  const status = document.querySelector('#status');
+  let sequence = 0;
+
+  function valueFor(target) {
+    return target.isContentEditable ? target.textContent : target.value;
+  }
+
+  function record(event) {
+    const current = ++sequence;
+    const at = performance.now();
+    const target = event.target;
+    records.push({
+      sequence: current,
+      type: event.type,
+      target: target.id,
+      at,
+      key: event.key,
+      code: event.code,
+      inputType: event.inputType,
+      data: event.data,
+      isComposing: event.isComposing,
+      value: valueFor(target),
+    });
+    if (event.type === 'input') {
+      indicator.style.background = `hsl(${current % 360} 80% 50%)`;
+      status.textContent = `${target.id}: ${valueFor(target)}`;
+      requestAnimationFrame(firstFrame => requestAnimationFrame(secondFrame => {
+        frameSamples.push({sequence: current, eventAt: at, firstFrame,
+                           secondFrame, secondFrameDelay: secondFrame - at});
+      }));
+    }
+  }
+
+  for (const control of document.querySelectorAll('input, textarea, [contenteditable]')) {
+    for (const type of ['keydown', 'beforeinput', 'input', 'keyup',
+                        'compositionstart', 'compositionupdate', 'compositionend']) {
+      control.addEventListener(type, record);
+    }
+  }
+
+  if ('PerformanceObserver' in window) {
+    try {
+      const observer = new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) {
+          eventTimings.push({name: entry.name, startTime: entry.startTime,
+                             processingStart: entry.processingStart,
+                             processingEnd: entry.processingEnd,
+                             duration: entry.duration,
+                             interactionId: entry.interactionId});
+        }
+      });
+      observer.observe({type: 'event', buffered: true, durationThreshold: 0});
+    } catch (_) {}
+  }
+
+  window.horizonInputProbe = {
+    reset(id) {
+      records.length = 0;
+      frameSamples.length = 0;
+      eventTimings.length = 0;
+      sequence = 0;
+      const control = document.getElementById(id);
+      if (control.isContentEditable) control.textContent = '';
+      else control.value = '';
+      control.focus();
+      return document.activeElement.id;
+    },
+    snapshot() {
+      const values = {};
+      for (const control of document.querySelectorAll('input, textarea, [contenteditable]')) {
+        values[control.id] = valueFor(control);
+      }
+      return {records: [...records], frameSamples: [...frameSamples],
+              eventTimings: [...eventTimings], values,
+              activeElement: document.activeElement.id};
+    },
+  };
+})();
+</script>

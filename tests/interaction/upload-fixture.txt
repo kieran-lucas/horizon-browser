@@ -1,0 +1,1 @@
+Horizon safe local file-input fixture.

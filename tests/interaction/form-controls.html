@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Horizon form controls fixture</title>
+<form id="form">
+  <label><input id="check" type="checkbox"> Checkbox</label>
+  <label><input id="radio-a" type="radio" name="choice" value="a"> A</label>
+  <label><input id="radio-b" type="radio" name="choice" value="b"> B</label>
+  <label>Select <select id="select"><option>A</option><option>B</option></select></label>
+  <label>Date <input id="date" type="date"></label>
+  <label>File <input id="file" type="file"></label>
+  <button id="validate" type="submit">Validate</button>
+</form>
+<details id="details"><summary>Details</summary><p>Expanded content</p></details>
+<button id="open-dialog">Open dialog</button>
+<dialog id="dialog"><button id="close-dialog">Close</button></dialog>
+<iframe id="frame" srcdoc="<button id='inside'>Iframe button</button>"></iframe>
+<div id="drag" draggable="true">Drag source</div>
+<div id="drop">Drop target</div>
+<script>
+  const events = [];
+  for (const type of ['click', 'input', 'change', 'submit', 'toggle', 'drop']) {
+    document.addEventListener(type, event => {
+      events.push({type, id: event.target.id});
+      if (type === 'submit') event.preventDefault();
+      if (type === 'drop') event.preventDefault();
+    }, true);
+  }
+  document.querySelector('#open-dialog').onclick = () => dialog.showModal();
+  document.querySelector('#close-dialog').onclick = () => dialog.close();
+  drop.ondragover = event => event.preventDefault();
+  window.formSmoke = {events};
+</script>
