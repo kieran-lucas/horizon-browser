@@ -1,13 +1,9 @@
-# Personal Windows Browser
+# Horizon Browser
 
-Working title: **Aoi**. The working title is deliberately not used as a package
-identity, public protocol, C++ namespace, or persisted-data root. Branding will
-remain replaceable until distribution work begins.
-
-This repository is at **Phase 0: engine viability**. It is not yet a browser
-binary. Production UI work is gated on an executable Chromium-derived build
-passing the acceptance tests in
-[`docs/phase0/acceptance-matrix.md`](docs/phase0/acceptance-matrix.md).
+Horizon is a working Chromium-derived Windows browser. Phase 0 engine viability
+and the Phase 1 usable Horizon shell are complete; Phase 2 visual polish has not
+started. The current product direction is light-only, ethereal blue anime-tech
+minimalism with restrained native browser chrome.
 
 ## Current decision
 
@@ -24,6 +20,7 @@ See:
 - [`docs/phase0/current-state.md`](docs/phase0/current-state.md)
 - [`docs/phase0/plan.md`](docs/phase0/plan.md)
 - [`docs/phase0/milestone-report.md`](docs/phase0/milestone-report.md)
+- [`docs/phase0/disk-policy.md`](docs/phase0/disk-policy.md)
 - [`docs/adr/0001-engine-selection.md`](docs/adr/0001-engine-selection.md)
 - [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - [`BUILDING.md`](BUILDING.md)
@@ -31,12 +28,13 @@ See:
 - [`SECURITY.md`](SECURITY.md)
 - [`PERFORMANCE.md`](PERFORMANCE.md)
 
-## Phase 0 quick start
+## Development quick start
 
 From PowerShell:
 
 ```powershell
 pwsh -NoProfile -File .\scripts\phase0\collect-environment.ps1
+pwsh -NoProfile -File .\scripts\phase0\disk-status.ps1 -Stage before -Operation fetch -EstimatedGrowthGiB 45
 ```
 
 The script writes a machine-readable report under `phase0-artifacts/`. It does
@@ -48,9 +46,10 @@ product-neutral and contains no remote code.
 
 ## Status
 
-- Repository baseline: documentation and Phase 0 test assets only.
-- Concept file: `aoi_browser_concept_01.html` was not present at initial scan.
-- Current host: Windows 11 x64, 15.4 GiB RAM.
-- Local Chromium build: blocked on the current machine by missing required
-  Visual Studio 2026/ATL-MFC/depot_tools and tight disk headroom.
+- Chromium revision: `a1d39df07efc8101c31ec6efce60265de7689dcb`.
+- Reusable incremental output: `.engine/chromium/src/out/phase0`.
+- Phase 1: native Horizon chrome, branded New Tab, product identity and default
+  maximized startup validated on Windows 11 at 175% scaling.
 - No Google credentials are collected or automated by this repository.
+- See [`docs/HANDOFF.md`](docs/HANDOFF.md) for exact resume instructions and
+  known development-build performance behavior.
