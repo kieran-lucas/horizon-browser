@@ -2,10 +2,15 @@
 out/
 phase0-artifacts/
 phase1-artifacts/
-performance-artifacts/*-profile*/
-performance-artifacts/traces/*.json.gz
-performance-artifacts/*.json
-performance-artifacts/*.png
+artifacts/
+compatibility-artifacts/
+performance-artifacts/
+phase2-artifacts/
+.tmp/
+*.pyc
+__pycache__/
+horizon-blink-caret.zip
+horizon-motion-context.zip
 tests/phase0/mv3-extension/_metadata/
 .engine/
 
